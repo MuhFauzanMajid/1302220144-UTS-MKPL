@@ -7,15 +7,9 @@ import java.util.List;
 
 public class Employee {
 
-	private String employeeId;
-	private String firstName;
-	private String lastName;
-	private String idNumber;
-	private String address;
+	private PersonalInfo personalInfo;
 	
-	private int yearJoined;
-	private int monthJoined;
-	private int dayJoined;
+	private LocalDate dateJoined;
 	private int monthWorkingInYear;
 
 	public enum IsForeigner{
@@ -32,26 +26,16 @@ public class Employee {
 	private int otherMonthlyIncome;
 	private int annualDeductible;
 	
-	private String spouseName;
-	private String spouseIdNumber;
-
-	private List<String> childNames;
-	private List<String> childIdNumbers;
+	private Spouse spouse;
+	private List<Child> children;
 	
-	public Employee(String employeeId, String firstName, String lastName, String idNumber, String address, int yearJoined, int monthJoined, int dayJoined, IsForeigner isForeigner, Gender gender) {
-		this.employeeId = employeeId;
-		this.firstName = firstName;
-		this.lastName = lastName;
-		this.idNumber = idNumber;
-		this.address = address;
-		this.yearJoined = yearJoined;
-		this.monthJoined = monthJoined;
-		this.dayJoined = dayJoined;
+	public Employee(PersonalInfo personalInfo, LocalDate dateJoined, IsForeigner isForeigner, Gender gender) {
+		this.personalInfo = personalInfo;
+		this.dateJoined = dateJoined;
 		this.isForeigner = isForeigner;
 		this.gender = gender;
 		
-		childNames = new LinkedList<String>();
-		childIdNumbers = new LinkedList<String>();
+		children = new LinkedList<String>();
 	}
 	
 	/**
@@ -82,14 +66,13 @@ public class Employee {
 		this.otherMonthlyIncome = income;
 	}
 	
-	public void setSpouse(String spouseName, String spouseIdNumber) {
-		this.spouseName = spouseName;
-		this.spouseIdNumber = idNumber;
+	public void setSpouse(String name, String idNumber) {
+    	this.spouse = new Spouse(name, idNumber);
 	}
+
 	
-	public void addChild(String childName, String childIdNumber) {
-		childNames.add(childName);
-		childIdNumbers.add(childIdNumber);
+	public void addChild(String name, String idNumber) {
+		children.add(new Child(name, idNumber));
 	}
 	
 	public int getAnnualIncomeTax() {
@@ -97,12 +80,12 @@ public class Employee {
 		//Menghitung berapa lama pegawai bekerja dalam setahun ini, jika pegawai sudah bekerja dari tahun sebelumnya maka otomatis dianggap 12 bulan.
 		LocalDate date = LocalDate.now();
 		
-		if (date.getYear() == yearJoined) {
-			monthWorkingInYear = date.getMonthValue() - monthJoined;
+		if (date.getYear() == dateJoined.getYear()) {
+			monthWorkingInYear = date.getMonthValue() - dateJoined.getMonthValue;
 		}else {
 			monthWorkingInYear = 12;
 		}
 		
-		return TaxFunction.calculateTax(monthlySalary, otherMonthlyIncome, monthWorkingInYear, annualDeductible, spouseIdNumber.equals(""), childIdNumbers.size());
+		return TaxFunction.calculateTax(monthlySalary, otherMonthlyIncome, monthWorkingInYear, annualDeductible, spouse.isEmpty(), children.size());
 	}
 }
