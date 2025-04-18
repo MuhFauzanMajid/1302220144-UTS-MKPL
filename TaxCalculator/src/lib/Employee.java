@@ -17,10 +17,17 @@ public class Employee {
 	private int monthJoined;
 	private int dayJoined;
 	private int monthWorkingInYear;
+
+	public enum IsForeigner{
+		LOCAL, FOREIGNER
+	}
+	public enum Gender {
+		MALE, FEMALE
+	}
 	
-	private boolean isForeigner;
-	private boolean gender; //true = Laki-laki, false = Perempuan
-	
+	private IsForeigner isForeigner;
+	private Gender gender; 
+
 	private int monthlySalary;
 	private int otherMonthlyIncome;
 	private int annualDeductible;
@@ -31,7 +38,7 @@ public class Employee {
 	private List<String> childNames;
 	private List<String> childIdNumbers;
 	
-	public Employee(String employeeId, String firstName, String lastName, String idNumber, String address, int yearJoined, int monthJoined, int dayJoined, boolean isForeigner, boolean gender) {
+	public Employee(String employeeId, String firstName, String lastName, String idNumber, String address, int yearJoined, int monthJoined, int dayJoined, IsForeigner isForeigner, Gender gender) {
 		this.employeeId = employeeId;
 		this.firstName = firstName;
 		this.lastName = lastName;
@@ -55,17 +62,17 @@ public class Employee {
 	public void setMonthlySalary(int grade) {	
 		if (grade == 1) {
 			monthlySalary = 3000000;
-			if (isForeigner) {
+			if (isForeigner == IsForeigner.FOREIGNER) {
 				monthlySalary = (int) (3000000 * 1.5);
 			}
 		}else if (grade == 2) {
 			monthlySalary = 5000000;
-			if (isForeigner) {
+			if (isForeigner == IsForeigner.FOREIGNER) {
 				monthlySalary = (int) (3000000 * 1.5);
 			}
 		}else if (grade == 3) {
 			monthlySalary = 7000000;
-			if (isForeigner) {
+			if (isForeigner == IsForeigner.FOREIGNER) {
 				monthlySalary = (int) (3000000 * 1.5);
 			}
 		}
