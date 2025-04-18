@@ -60,22 +60,18 @@ public class Employee {
 	 */
 	
 	public void setMonthlySalary(int grade) {	
-		if (grade == 1) {
-			monthlySalary = 3000000;
-			if (isForeigner == IsForeigner.FOREIGNER) {
-				monthlySalary = (int) (3000000 * 1.5);
-			}
-		}else if (grade == 2) {
-			monthlySalary = 5000000;
-			if (isForeigner == IsForeigner.FOREIGNER) {
-				monthlySalary = (int) (3000000 * 1.5);
-			}
-		}else if (grade == 3) {
-			monthlySalary = 7000000;
-			if (isForeigner == IsForeigner.FOREIGNER) {
-				monthlySalary = (int) (3000000 * 1.5);
-			}
+		int salary = switch(grade){
+			case 1 -> 3000000;
+			case 2 -> 5000000;
+			case 3 -> 7000000;
+			default -> throw new IllegalArgumentException("Invalid grade: " + grade); 
 		}
+		
+		if(isForeigner == IsForeigner.FOREIGNER){
+			salary *= 1.5; 
+		}
+
+		this.monthlySalary = salary;
 	}
 	
 	public void setAnnualDeductible(int deductible) {	
